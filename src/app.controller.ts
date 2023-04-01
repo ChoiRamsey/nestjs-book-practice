@@ -18,7 +18,7 @@ export class AppController {
     return 'Params test finished!';
   }
 
-  @Get(':cId')
+  @Get('test/:cId')
   getParam(@Param('cId') cId: string): string {
     return `the data type of ${cId} is not the number!`;
   }
