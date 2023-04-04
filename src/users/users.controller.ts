@@ -7,7 +7,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { UserInfo } from './userInfo';
+import { UserInfo } from './UserInfo';
 import { EmailVerifyDto } from './dto/emailVerify.dto';
 import { LogInDto } from './dto/logIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
