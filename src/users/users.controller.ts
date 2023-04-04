@@ -11,17 +11,21 @@ import { UserInfo } from './userInfo';
 import { EmailVerifyDto } from './dto/emailVerify.dto';
 import { LogInDto } from './dto/logIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Post()
-  async signUp(@Body() signUpDto: SignUpDto): Promise<void> {
+  async createUser(@Body() signUpDto: SignUpDto): Promise<void> {
     const { name, email, password } = signUpDto;
+
     if (!name || !email || !password) {
       throw new BadRequestException();
     }
-    console.log(signUpDto);
-    console.log(name, email, password);
+
+    await this.usersService.createUser(name, email, password);
   }
 
   @Post('email-verify')
@@ -31,7 +35,7 @@ export class UsersController {
       throw new BadRequestException();
     }
     console.log(emailVerifyDto);
-    return;
+    return await this.usersService.verifyEmail(signupVerifyToken);
   }
 
   @Post('login')
@@ -41,12 +45,12 @@ export class UsersController {
       throw new BadRequestException();
     }
     console.log(logInDto);
-    return;
+    return await this.usersService.logIn(email, password);
   }
 
   @Get(':id')
   async getUserInfo(@Param('id') id: string): Promise<UserInfo> {
     console.log(id);
-    return;
+    return await this.usersService.getUserInfo(id);
   }
 }
