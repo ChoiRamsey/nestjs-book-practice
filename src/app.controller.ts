@@ -1,13 +1,18 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    // return this.appService.getHello();
+    return process.env.DATABASE_HOST;
   }
 
   @Get(':aId/test/:bId')
@@ -21,5 +26,10 @@ export class AppController {
   @Get('test/:cId')
   getParam(@Param('cId') cId: string): string {
     return `the data type of ${cId} is not the number!`;
+  }
+
+  @Get('dbhost')
+  getDBhostfromConfigService(): string {
+    return this.configService.get('DATABASE_HOST');
   }
 }
