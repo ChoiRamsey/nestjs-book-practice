@@ -12,6 +12,7 @@ export class AppController {
   @Get()
   getHello(): string {
     // return this.appService.getHello();
+    console.log(__dirname);
     return process.env.DATABASE_HOST;
   }
 

@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -49,8 +51,18 @@ export class UsersController {
   }
 
   @Get(':id')
-  async getUserInfo(@Param('id') id: string): Promise<UserInfo> {
+  async getUserInfo(@Param('id', ParseIntPipe) id) {
     console.log(id);
+    console.log(typeof id);
     return await this.usersService.getUserInfo(id);
+  }
+
+  @Get()
+  async findAll(
+    @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ) {
+    console.log(offset, limit);
+    return await this.usersService.findAll();
   }
 }
